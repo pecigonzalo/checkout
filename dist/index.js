@@ -1243,7 +1243,7 @@ function getSource(settings) {
             }
             // Fetch
             core.startGroup('Fetching the repository');
-            yield git.config('fetch.parallel', settings.fetchParallel.toString());
+            yield git.config('fetch.parallel', settings.fetchParallel.toString(), true);
             const fetchOptions = {};
             if (settings.filter) {
                 fetchOptions.filter = settings.filter;
@@ -1305,7 +1305,7 @@ function getSource(settings) {
                 core.endGroup();
                 // Checkout submodules
                 core.startGroup('Fetching submodules');
-                yield git.config('submodule.fetchJobs', settings.submodulesFetchJobs.toString());
+                yield git.config('submodule.fetchJobs', settings.submodulesFetchJobs.toString(), true);
                 yield git.submoduleSync(settings.nestedSubmodules);
                 yield git.submoduleUpdate(settings.fetchDepth, settings.nestedSubmodules);
                 yield git.submoduleForeach('git config --local gc.auto 0', settings.nestedSubmodules);
@@ -1759,7 +1759,7 @@ function getInputs() {
         if (isNaN(result.fetchParallel) || result.fetchParallel < 0) {
             result.fetchParallel = 0;
         }
-        core.debug(`fetch parallel = ${result.fetchTags}`);
+        core.debug(`fetch parallel = ${result.fetchParallel}`);
         // Show fetch progress
         result.showProgress =
             (core.getInput('show-progress') || 'true').toUpperCase() === 'TRUE';
@@ -1778,13 +1778,13 @@ function getInputs() {
         else if (submodulesString == 'TRUE') {
             result.submodules = true;
         }
-        result.submodulesFetchJobs = Math.floor(Number(core.getInput('submodulesFetchJobs') || '1'));
+        result.submodulesFetchJobs = Math.floor(Number(core.getInput('submodules-fetch-jobs') || '1'));
         if (isNaN(result.submodulesFetchJobs) || result.submodulesFetchJobs < 0) {
             result.submodulesFetchJobs = 0;
         }
         core.debug(`submodules = ${result.submodules}`);
         core.debug(`recursive submodules = ${result.nestedSubmodules}`);
-        core.debug(`submodules fetchJobs= ${result.submodulesFetchJobs}`);
+        core.debug(`submodules submodules-fetch-jobs = ${result.submodulesFetchJobs}`);
         // Auth token
         result.authToken = core.getInput('token', {
             required: true
