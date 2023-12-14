@@ -5,8 +5,8 @@ import * as io from '@actions/io'
 import * as os from 'os'
 import * as path from 'path'
 import * as stateHelper from '../lib/state-helper'
-import { IGitCommandManager } from '../lib/git-command-manager'
-import { IGitSourceSettings } from '../lib/git-source-settings'
+import {IGitCommandManager} from '../lib/git-command-manager'
+import {IGitSourceSettings} from '../lib/git-source-settings'
 
 const isWindows = process.platform === 'win32'
 const testWorkspace = path.join(__dirname, '_temp', 'git-auth-helper')
@@ -17,7 +17,7 @@ let localGitConfigPath: string
 let globalGitConfigPath: string
 let runnerTemp: string
 let tempHomedir: string
-let git: IGitCommandManager & { env: { [key: string]: string } }
+let git: IGitCommandManager & {env: {[key: string]: string}}
 let settings: IGitSourceSettings
 let sshPath: string
 let githubServerUrl: string
@@ -33,7 +33,7 @@ describe('git-auth-helper tests', () => {
 
   beforeEach(() => {
     // Mock setSecret
-    jest.spyOn(core, 'setSecret').mockImplementation((secret: string) => { })
+    jest.spyOn(core, 'setSecret').mockImplementation((secret: string) => {})
 
     // Mock error/warning/info/debug
     jest.spyOn(core, 'error').mockImplementation(jest.fn())
@@ -710,9 +710,9 @@ async function setup(testName: string): Promise<void> {
   workspace = path.join(testWorkspace, testName, 'workspace')
   runnerTemp = path.join(testWorkspace, testName, 'runner-temp')
   tempHomedir = path.join(testWorkspace, testName, 'home-dir')
-  await fs.promises.mkdir(workspace, { recursive: true })
-  await fs.promises.mkdir(runnerTemp, { recursive: true })
-  await fs.promises.mkdir(tempHomedir, { recursive: true })
+  await fs.promises.mkdir(workspace, {recursive: true})
+  await fs.promises.mkdir(runnerTemp, {recursive: true})
+  await fs.promises.mkdir(tempHomedir, {recursive: true})
   process.env['RUNNER_TEMP'] = runnerTemp
   process.env['HOME'] = tempHomedir
 
@@ -720,7 +720,7 @@ async function setup(testName: string): Promise<void> {
   globalGitConfigPath = path.join(tempHomedir, '.gitconfig')
   await fs.promises.writeFile(globalGitConfigPath, '')
   localGitConfigPath = path.join(workspace, '.git', 'config')
-  await fs.promises.mkdir(path.dirname(localGitConfigPath), { recursive: true })
+  await fs.promises.mkdir(path.dirname(localGitConfigPath), {recursive: true})
   await fs.promises.writeFile(localGitConfigPath, '')
 
   git = {

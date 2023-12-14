@@ -120,7 +120,7 @@ export async function getInputs(): Promise<IGitSourceSettings> {
   if (isNaN(result.fetchParallel) || result.fetchParallel < 0) {
     result.fetchParallel = 0
   }
-  core.debug(`fetch parallel = ${result.fetchTags}`)
+  core.debug(`fetch parallel = ${result.fetchParallel}`)
 
   // Show fetch progress
   result.showProgress =
