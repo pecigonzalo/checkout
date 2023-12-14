@@ -16,7 +16,11 @@ if [ ! -f "./submodules-recursive/submodule-level-1/submodule-level-2/nested-sub
 fi
 
 echo "Testing fetchJobs exists"
-git config --local --get-regexp submodules.fetchJobs 10
+git config --local --get-regexp submodules.fetchJobs | grep 10
+if [ "$?" != "0" ]; then
+    echo "Failed to validate fetchJobs configuration"
+    exit 1
+fi
 
 echo "Testing persisted credential"
 pushd ./submodules-recursive/submodule-level-1/submodule-level-2
